@@ -2,6 +2,7 @@
     <div class="comment-wrapper">
         <div class='comment' @click='toggleReply'>
             <div class="comment-info">
+                <div v-if='item.parentId'>Ответ на комментарий ID# {{ item.parentId }}</div>
                 #ID: {{ item.id }}. {{ item.name }}
             </div>
             <div class="comment-body">
@@ -38,7 +39,7 @@ export default {
   data() {
     return {
         showReply: this.showReply,
-        reply: ''
+        reply: '',
     };
   },
   methods: {
@@ -47,6 +48,7 @@ export default {
             parentId: item.id,
             text: this.reply
         });
+        this.reply = '';
     },
     upVote(event) {
         this.$store.dispatch('upVote', this.item.id);

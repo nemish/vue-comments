@@ -8,19 +8,21 @@ import {
 import getters from './getters';
 import actions from './actions';
 import mutations, {
-    comments
+    commentsState
 } from './mutations';
 
 Vue.use(Vuex);
 
-const state = {
-    comments
+const comments = {
+    state: commentsState,
+    getters,
+    mutations,
+    actions
 };
 
 export const store = new Vuex.Store({
   plugins: [createLogger()],
-  state,
-  getters,
-  mutations,
-  actions
+  modules: {
+    comments
+  }
 });

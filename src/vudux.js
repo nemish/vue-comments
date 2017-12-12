@@ -6,7 +6,6 @@ Vudux.install = (Vue, { store }) => {
     Vue.mixin({
         mounted() {
             if (this.isRedux) {
-                console.log('ololo');
                 this.unsubscribe = store.subscribe(this._refreshState.bind(this));
             }
         },

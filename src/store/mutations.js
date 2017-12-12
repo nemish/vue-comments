@@ -1,7 +1,7 @@
 import * as constants from './constants';
 const { COUNT_STEP } = constants;
 
-export const comments = {
+export const commentsState = {
     items: [],
     total: 0,
     step: COUNT_STEP,
@@ -15,41 +15,45 @@ export const comments = {
 
 export default {
     [constants.SHIFT_LIMIT](state) {
-        state.comments.loadParams.limit += state.comments.step;
+        state.loadParams.limit += state.step;
     },
     [constants.TOGGLE_ORDERING](state, order) {
         if (!order) {
-            state.comments.loadParams.order = null;
-            state.comments.loadParams.dir = null;
-        } else if (state.comments.loadParams.order == order) {
-            switch (state.comments.loadParams.dir) {
+            state.loadParams.order = null;
+            state.loadParams.dir = null;
+        } else if (state.loadParams.order == order) {
+            switch (state.loadParams.dir) {
                 case 'asc':
-                    state.comments.loadParams.dir = 'desc';
+                    state.loadParams.dir = 'desc';
                     break;
                 case 'desc':
-                    state.comments.loadParams.dir = null;
+                    state.loadParams.dir = null;
                     break;
                 default:
-                    state.comments.loadParams.dir = 'asc';
+                    state.loadParams.dir = 'asc';
             }
         } else {
-            state.comments.loadParams.dir = 'asc';
-            state.comments.loadParams.order = order;
+            state.loadParams.dir = 'asc';
+            state.loadParams.order = order;
         }
     },
     [constants.FETCH_COMMENTS__START](state) {
-      state.comments.loading = true;
+      state.loading = true;
     },
     [constants.FETCH_COMMENTS__SUCCESS](state, {items, total}) {
-      state.comments.loading = false;
-      state.comments.items = items;
-      state.comments.total = total;
-      state.errors = [];
+      state.loading = false;
+      state.items = items;
+      state.total = total;
     },
     [constants.FETCH_COMMENTS__FAIL](state, msg) {
-      state.comments.loading = false;
+      state.loading = false;
     },
-    [constants.POST_COMMENT__START](state, cid) {},
+    [constants.POST_COMMENT__START](state, payload) {
+        console.log(constants.POST_COMMENT__START, payload);
+    },
+    [constants.POST_COMMENT__SUCCESS](state, payload) {
+        console.log(constants.POST_COMMENT__SUCCESS, payload);
+    },
     [constants.UPVOTE__START](state, cid) {},
     [constants.UPVOTE__SUCCESS](state, cid) {},
     [constants.DOWNVOTE__START](state, cid) {},

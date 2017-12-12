@@ -6,11 +6,11 @@ import {
 const { API_URL, BASE_API_URL } = constants;
 
 const fetchComments = (commit, state) => {
-    if (!state.comments.loading) {
+    if (!state.loading) {
         commit(constants.FETCH_COMMENTS__START);
 
         let url = API_URL;
-        const { loadParams } = state.comments;
+        const { loadParams } = state;
         const queryString = Object.keys(loadParams).filter(key => !!loadParams[key]).map(key => `${key}=${loadParams[key]}`).join('&');
         if (queryString.length) {
             url += '?' + queryString;
@@ -30,9 +30,17 @@ const fetchComments = (commit, state) => {
 
 
 const vote = (commit, state, conf) => {
+    return doPost(commit, state, {
+        ...conf,
+        endpoint: '/comments/vote'
+    })
+}
+
+
+const doPost = (commit, state, conf) => {
     const { startAction, successAction, payload } = conf;
     commit(startAction, payload);
-    return fetch(`${BASE_API_URL}/comments/vote`, {
+    return fetch(`${BASE_API_URL}${conf.endpoint}`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
@@ -41,6 +49,16 @@ const vote = (commit, state, conf) => {
     }).then(resp => {
         fetchComments(commit, state);
         commit(successAction);
+    }).catch(resp => conf.failAction ? commit(conf.failAction, resp) : null)
+}
+
+
+const createComment = (commit, state, payload) => {
+    return doPost(commit, state, {
+        payload,
+        startAction: constants.POST_COMMENT__START,
+        successAction: constants.POST_COMMENT__SUCCESS,
+        endpoint: '/comments'
     })
 }
 
@@ -79,6 +97,6 @@ export default {
         fetchComments(commit, state);
     },
     postComment({ commit, state }, payload) {
-        commit(constants.POST_COMMENT__START, payload);
+        createComment(commit, state, payload);
     }
 }

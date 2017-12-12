@@ -41,10 +41,28 @@ app.get('/comments', function (req, res) {
 });
 
 
+app.post('/comments', function (req, res) {
+    const { parentId, text } = req.body;
+    comments.push({
+        body: text,
+        parentId,
+        rating: 0,
+        email: 'anonymous@gmail.com',
+        name: 'Anonymous User',
+        id: comments.length + 1
+    });
+
+    fs.writeFile('./comments.json', JSON.stringify(comments), err => {
+        res.json({});
+    });
+});
+
+
 app.post('/comments/vote', function (req, res) {
     const { cid } = req.body;
     comments.forEach(item => {
         if (item.id === cid) {
+            item.rating = item.rating || 0;
             item.rating += req.body.operation;
         }
     })

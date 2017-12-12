@@ -8,6 +8,7 @@ export const DOWNVOTE__SUCCESS = 'DOWNVOTE__SUCCESS';
 export const TOGGLE_ORDERING = 'TOGGLE_ORDERING';
 export const SHIFT_LIMIT = 'SHIFT_LIMIT';
 export const POST_COMMENT__START = 'POST_COMMENT__START';
+export const POST_COMMENT__SUCCESS = 'POST_COMMENT__SUCCESS';
 
 export const COUNT_STEP = 5;
 export const BASE_API_URL = 'http://localhost:3000';
