@@ -85,12 +85,15 @@ export default {
         'orderDirection'
     ]),
     orderingClass() {
+        console.log('orderingClass touched');
         return this.orderDirection === 'asc' ? 'fa fa-angle-up' : 'fa fa-angle-down';
     },
     isOrderByRating() {
+        console.log('isOrderByRating touched');
         return this.orderDirection && this.order === 'rating';
     },
     isOrderById() {
+        console.log('isOrderById touched');
         return this.orderDirection && this.order === 'id';
     }
   }

@@ -62,12 +62,13 @@ export default {
     position: fixed;
     top: 10px;
     right: 10px;
-    width: 300px;
+    width: 200px;
     height: 100px;
 }
 
 .notification {
     padding: 10px;
+    font-size: 12px;
     margin-bottom: 5px;
     background-color: #2ECC40;
     color: #fff;
